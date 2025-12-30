@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { CalendarIcon, Sparkles } from 'lucide-react';
+import { Calendar as CalendarIcon, Sparkles } from 'lucide-react';
 import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/button';
@@ -38,25 +38,33 @@ import { getZodiacSign } from '@/lib/zodiac';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  dob: z.date({ required_error: 'A date of birth is required.' }),
+  dob: z
+    .string()
+    .min(1, 'A date of birth is required.')
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format. Please use YYYY-MM-DD.',
+    }),
 });
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { setUser } = useUser();
   const [zodiacMessage, setZodiacMessage] = useState('');
+  const [isManualDob, setIsManualDob] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      dob: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const { message } = getZodiacSign(values.dob);
+    const dob = new Date(values.dob);
+    const { message } = getZodiacSign(dob);
     setZodiacMessage(message);
-    setUser({ name: values.name, dob: values.dob });
+    setUser({ name: values.name, dob });
   }
 
   function enterDashboard() {
@@ -117,38 +125,60 @@ export default function OnboardingPage() {
                   name="dob"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Date of birth</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={'outline'}
-                              className={cn(
-                                'w-full pl-3 text-left font-normal',
-                                !field.value && 'text-muted-foreground'
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, 'PPP')
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
-                            initialFocus
+                      <div className="flex justify-between items-center">
+                        <FormLabel>Date of birth</FormLabel>
+                        <Button
+                          type="button"
+                          variant="link"
+                          className="p-0 h-auto text-xs"
+                          onClick={() => setIsManualDob(!isManualDob)}
+                        >
+                          {isManualDob ? 'Use Calendar' : 'Manual Entry'}
+                        </Button>
+                      </div>
+                      {isManualDob ? (
+                        <FormControl>
+                          <Input
+                            placeholder="YYYY-MM-DD"
+                            {...field}
                           />
-                        </PopoverContent>
-                      </Popover>
+                        </FormControl>
+                      ) : (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                {field.value ? (
+                                  format(new Date(field.value), 'PPP')
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value ? new Date(field.value) : undefined}
+                              onSelect={(date) =>
+                                field.onChange(date?.toISOString().split('T')[0])
+                              }
+                              disabled={(date) =>
+                                date > new Date() ||
+                                date < new Date('1900-01-01')
+                              }
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
