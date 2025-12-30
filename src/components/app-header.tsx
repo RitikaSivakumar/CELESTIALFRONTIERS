@@ -15,6 +15,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from './ui/label';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ThemeToggle } from './theme-toggle';
 
 export function AppHeader() {
   const { user, publicMode, setPublicMode, setUser } = useUser();
@@ -43,6 +44,7 @@ export function AppHeader() {
             Public Support Mode
           </Label>
         </div>
+        <ThemeToggle />
         <Button variant="outline" size="icon" className="h-8 w-8">
           <Bell className="h-4 w-4" />
           <span className="sr-only">Toggle notifications</span>
