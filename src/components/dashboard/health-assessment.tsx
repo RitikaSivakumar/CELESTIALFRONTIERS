@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, BrainCircuit, HeartPulse, List } from 'lucide-react';
+import { BrainCircuit, Droplets, Activity, Wind, AlertCircle } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 const mockMotionData = [
@@ -22,7 +22,7 @@ const mockMotionData = [
   'moderate activity',
   'restless movement',
   'good posture',
-  'slumped posture'
+  'slumped posture',
 ];
 
 export function HealthAssessment() {
@@ -41,6 +41,8 @@ export function HealthAssessment() {
         mockMotionData[Math.floor(Math.random() * mockMotionData.length)],
       skinTemp: parseFloat((Math.random() * 2 + 36).toFixed(1)), // 36.0-38.0°C
       gsr: parseFloat((Math.random() * 10).toFixed(2)), // 0-10 µS
+      breathingRate: Math.floor(Math.random() * 5) + 16, // 16-20
+      activityDuration: Math.floor(Math.random() * 120),
       ambientLight: Math.floor(Math.random() * 801) + 100, // 100-900 lux
     };
 
@@ -63,29 +65,29 @@ export function HealthAssessment() {
 
   if (loading) {
     return (
-      <>
-        {[...Array(2)].map((_, i) => (
-          <Card key={i} className="col-span-2">
+      <div className="grid grid-cols-2 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <Card key={i}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-24" />
               </CardTitle>
               <Skeleton className="h-4 w-4 rounded-sm" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-8 w-32" />
             </CardContent>
           </Card>
         ))}
-      </>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Card className="col-span-4">
+      <Card>
         <CardHeader>
-          <CardTitle>Error</CardTitle>
+          <CardTitle>Assessment Error</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-destructive">{error}</p>
@@ -93,50 +95,63 @@ export function HealthAssessment() {
       </Card>
     );
   }
+  
+  if (!assessment) return null;
 
   return (
     <>
-      <Card className="col-span-4 md:col-span-2 lg:col-span-4">
-        {assessment?.alert && (
-          <Alert variant="destructive" className="m-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Immediate Attention Required!</AlertTitle>
-            <AlertDescription>
-              Our system has detected a high-risk mental state. Please consider
-              using the AI Coach or reaching out for support.
-            </AlertDescription>
-          </Alert>
-        )}
-      </Card>
-      <Card className="col-span-2">
+    {assessment.alert && (
+      <Alert variant="destructive" className="mb-4">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>High Risk Detected!</AlertTitle>
+        <AlertDescription>
+          Critical risk levels detected. Consider using the Emergency Key to contact your doctor immediately.
+        </AlertDescription>
+      </Alert>
+    )}
+    <div className="grid grid-cols-2 gap-4">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Mental State</CardTitle>
+          <CardTitle className="text-sm font-medium">Fatigue</CardTitle>
+          <Wind className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-xl font-bold">{assessment.fatiguePrediction}</div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Dehydration</CardTitle>
+          <Droplets className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-xl font-bold">{assessment.dehydrationRisk}</div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Mental Overload</CardTitle>
           <BrainCircuit className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {assessment?.mentalState || 'N/A'}
-          </div>
+          <div className="text-xl font-bold">{assessment.mentalOverload}</div>
         </CardContent>
       </Card>
-      <Card className="col-span-2">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Physical State</CardTitle>
-          <HeartPulse className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium">Burnout Risk</CardTitle>
+          <Activity className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
-            {assessment?.physicalState || 'N/A'}
-          </div>
+          <div className="text-xl font-bold">{assessment.burnoutRisk}</div>
         </CardContent>
       </Card>
       {assessment?.recommendations && assessment.recommendations.length > 0 && (
-        <Card className="col-span-4">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="col-span-2">
+          <CardHeader>
             <CardTitle className="text-sm font-medium">
               AI Recommendations
             </CardTitle>
-            <List className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <ul className="space-y-1 text-sm text-muted-foreground list-disc pl-4">
@@ -147,6 +162,7 @@ export function HealthAssessment() {
           </CardContent>
         </Card>
       )}
+    </div>
     </>
   );
 }
