@@ -61,7 +61,7 @@ Continuously collects physiological, behavioral, and contextual data.
 
 ### 2. On-Device Processing & AI Layer (Edge AI/TinyML)
 
-Lightweight ML models deployed on embedded platforms (e.g., ESP32, Arduino Nano, Raspberry Pi Pico) perform on-device analysis.
+Lightweight ML models deployed on embedded platforms (e.g., ESP32-S3) perform on-device analysis.
 
 *   **Short-Term Fatigue Prediction:** Estimates fatigue levels 15–30 minutes ahead.
 *   **Dehydration Risk Estimation:** Assesses risk based on physiological and activity data.
@@ -72,12 +72,21 @@ Lightweight ML models deployed on embedded platforms (e.g., ESP32, Arduino Nano,
 
 Delivers context-aware, adaptive, and preventive notifications.
 
+*   **Alerting Hardware:**
+    *   **Vibration Motor:** Provides silent, offline alerts.
+    *   **Buzzer:** Used for emergency sound alerts.
 *   **Context-Aware Alerts:** Notifications for hydration, breaks, or mindfulness are triggered based on user profile (student, professional), activity, time of day, and workload.
 *   **Alert Control Logic:** Suppresses repeated or low-confidence alerts to avoid "alert fatigue."
 *   **Gentle Interventions:** Provides gentle vibrations or audio cues, on-screen guidance for breathing, and environmental recommendations (e.g., adjust lighting).
 *   **Critical Safety Mode:** With user consent, can notify a supervisor or caregiver with aggregated risk information only.
 
-### 4. Companion Mobile App (This Application)
+### 4. Power Management System
+
+*   **Li-Po Battery (3.7V):** Ensures standalone power supply.
+*   **TP4056 Module:** Manages safe battery charging.
+*   **Voltage Regulator:** Provides stable power management for all components.
+
+### 5. Companion Mobile App (This Application)
 
 Serves as the user's interface for visualization, configuration, and long-term trend analysis.
 
