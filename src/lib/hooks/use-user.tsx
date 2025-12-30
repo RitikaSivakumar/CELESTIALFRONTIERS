@@ -46,7 +46,7 @@ const getAgeGroup = (dob: Date | null): AgeGroup | null => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
-  const [publicMode, setPublicMode] = useState(false);
+  const [publicMode, setPublicModeState] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -60,8 +60,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
         setUserState(parsedUser);
       }
+      const storedPublicMode = localStorage.getItem('wellguard-public-mode');
+      if (storedPublicMode) {
+        setPublicModeState(JSON.parse(storedPublicMode));
+      }
     } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
+      console.error("Failed to parse from localStorage", error);
     }
     setLoading(false);
   }, []);
@@ -72,8 +76,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('wellguard-user', JSON.stringify(user));
     } else {
       localStorage.removeItem('wellguard-user');
+      localStorage.removeItem('wellguard-public-mode');
     }
   };
+
+  const setPublicMode = (mode: boolean) => {
+    setPublicModeState(mode);
+    localStorage.setItem('wellguard-public-mode', JSON.stringify(mode));
+  }
 
   const ageGroup = useMemo(() => getAgeGroup(user?.dob), [user?.dob]);
 
