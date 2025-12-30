@@ -54,7 +54,7 @@ export function HealthAssessment() {
   };
 
   useEffect(() => {
-    runAssessment();
+    // runAssessment();
     // The interval has been removed to prevent excessive API calls.
   }, []);
 
