@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, UserCircle } from 'lucide-react';
+import { Bell, LogOut, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,9 +15,16 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from './ui/label';
 import Link from 'next/link';
 import { ThemeToggle } from './theme-toggle';
+import { useRouter } from 'next/navigation';
 
 export function AppHeader() {
-  const { user, publicMode, setPublicMode } = useUser();
+  const { user, publicMode, setPublicMode, setUser } = useUser();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    setUser(null);
+    router.push('/');
+  };
 
   return (
     <div className="w-full flex items-center gap-4">
@@ -56,6 +63,11 @@ export function AppHeader() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
             </Link>
             <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Logout</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
