@@ -44,7 +44,7 @@ export function NutrientGuide({ currentPhase }: NutrientGuideProps) {
       }
     }
     fetchRecommendation();
-  }, []);
+  }, [currentPhase]);
 
   if (loading) {
     return (
