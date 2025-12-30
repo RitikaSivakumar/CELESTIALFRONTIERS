@@ -14,16 +14,33 @@ import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 type SensorDataPoint = {
   time: string;
   heartRate: number;
+  spo2: number;
   gsr: number;
 };
 
 const generateDataPoint = (): Omit<SensorDataPoint, 'time'> => ({
   heartRate: Math.floor(Math.random() * 41) + 60, // 60-100 bpm
+  spo2: Math.floor(Math.random() * 5) + 95, // 95-99%
   gsr: parseFloat((Math.random() * 5 + 1).toFixed(2)), // 1-6 µS
 });
 
 export function SensorChart() {
   const [data, setData] = useState<SensorDataPoint[]>([]);
+
+  const chartConfig = {
+    heartRate: {
+      label: "Heart Rate",
+      color: "hsl(var(--chart-1))",
+    },
+    spo2: {
+      label: "SpO2",
+      color: "hsl(var(--chart-2))",
+    },
+    gsr: {
+      label: "GSR",
+      color: "hsl(var(--chart-3))",
+    },
+  }
 
   useEffect(() => {
     // Initial data fill
@@ -59,19 +76,19 @@ export function SensorChart() {
       <CardHeader>
         <CardTitle>Real-Time Vitals</CardTitle>
         <CardDescription>
-          Live feed from your wearable device.
+          Live feed from your wearable device (simulated).
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
-          <ChartContainer config={{}}>
+          <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={data}
                 margin={{
                   top: 5,
-                  right: 10,
-                  left: 10,
+                  right: 20,
+                  left: 20,
                   bottom: 5,
                 }}
               >
@@ -91,6 +108,7 @@ export function SensorChart() {
                   axisLine={false}
                   tickFormatter={(value) => `${value}`}
                   domain={[50, 110]}
+                  label={{ value: 'BPM / %', angle: -90, position: 'insideLeft', offset: -10, style: { textAnchor: 'middle', fill: 'hsl(var(--muted-foreground))' } }}
                 />
                 <YAxis
                   yAxisId="right"
@@ -101,6 +119,7 @@ export function SensorChart() {
                   axisLine={false}
                   tickFormatter={(value) => `${value.toFixed(1)}`}
                   domain={[0, 8]}
+                  label={{ value: 'µS', angle: 90, position: 'insideRight', offset: -10, style: { textAnchor: 'middle', fill: 'hsl(var(--muted-foreground))' } }}
                 />
                 <Tooltip
                   content={<ChartTooltipContent hideLabel />}
@@ -110,19 +129,28 @@ export function SensorChart() {
                   yAxisId="left"
                   type="monotone"
                   dataKey="heartRate"
-                  stroke="hsl(var(--chart-1))"
+                  stroke="var(--color-heartRate)"
                   strokeWidth={2}
                   dot={false}
-                  name="Heart Rate (BPM)"
+                  name="Heart Rate"
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="spo2"
+                  stroke="var(--color-spo2)"
+                  strokeWidth={2}
+                  dot={false}
+                  name="SpO2"
                 />
                 <Line
                   yAxisId="right"
                   type="monotone"
                   dataKey="gsr"
-                  stroke="hsl(var(--chart-2))"
+                  stroke="var(--color-gsr)"
                   strokeWidth={2}
                   dot={false}
-                  name="Skin Response (µS)"
+                  name="GSR"
                 />
               </LineChart>
             </ResponsiveContainer>

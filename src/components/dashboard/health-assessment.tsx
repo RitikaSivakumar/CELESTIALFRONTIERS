@@ -21,6 +21,8 @@ const mockMotionData = [
   'light activity',
   'moderate activity',
   'restless movement',
+  'good posture',
+  'slumped posture'
 ];
 
 export function HealthAssessment() {
@@ -32,13 +34,14 @@ export function HealthAssessment() {
   const runAssessment = async () => {
     // Note: No setLoading(true) here to avoid constant UI flicker on interval updates
     const mockInput: RealTimeHealthAssessmentInput = {
-      heartRate: Math.floor(Math.random() * 41) + 60, // 60-100
+      heartRate: Math.floor(Math.random() * 41) + 60, // 60-100 bpm
+      hrv: Math.floor(Math.random() * 51) + 30, // 30-80 ms
+      spo2: Math.floor(Math.random() * 5) + 95, // 95-99%
       motionData:
         mockMotionData[Math.floor(Math.random() * mockMotionData.length)],
-      gsr: Math.random() * 10,
-      speechLatency: Math.floor(Math.random() * 101) + 150, // 150-250ms
-      energyLevel: Math.floor(Math.random() * 101),
-      dailyAssessmentScore: Math.floor(Math.random() * 22), // Example HADES score 0-21
+      skinTemp: parseFloat((Math.random() * 2 + 36).toFixed(1)), // 36.0-38.0°C
+      gsr: parseFloat((Math.random() * 10).toFixed(2)), // 0-10 µS
+      ambientLight: Math.floor(Math.random() * 801) + 100, // 100-900 lux
     };
 
     try {

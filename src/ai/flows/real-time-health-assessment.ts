@@ -12,20 +12,21 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const RealTimeHealthAssessmentInputSchema = z.object({
-  heartRate: z.number().describe('Heart rate in beats per minute.'),
-  motionData: z.string().describe('Motion data from the wearable device.'),
-  gsr: z.number().describe('Galvanic Skin Response value.'),
-  speechLatency: z.number().describe('Speech latency in milliseconds.'),
-  energyLevel: z.number().describe('Energy level estimation (0-100).'),
-  dailyAssessmentScore: z.number().describe('Score from HADES-based daily assessment')
+  heartRate: z.number().describe('Heart rate in beats per minute (BPM) from MAX30102.'),
+  hrv: z.number().describe('Heart Rate Variability in ms from MAX30102.'),
+  spo2: z.number().describe('Blood oxygen saturation level (%) from MAX30102.'),
+  motionData: z.string().describe('Activity level and posture from MPU6050 (e.g., sedentary, light activity, restless).'),
+  skinTemp: z.number().describe('Skin temperature in Celsius from NTC/DS18B20.'),
+  gsr: z.number().describe('Galvanic Skin Response (skin conductance) in microsiemens (µS) from GSR/EDA sensor.'),
+  ambientLight: z.number().describe('Ambient light level in lux from BH1750.'),
 });
 export type RealTimeHealthAssessmentInput = z.infer<typeof RealTimeHealthAssessmentInputSchema>;
 
 const RealTimeHealthAssessmentOutputSchema = z.object({
-  mentalState: z.string().describe('Overall mental state assessment (e.g., Normal, At-risk, High depression, High anxiety).'),
-  physicalState: z.string().describe('Overall physical state assessment (e.g., Normal, Fatigue, Restless).'),
-  recommendations: z.array(z.string()).describe('List of recommendations based on the assessment.'),
-  alert: z.boolean().describe('Whether a real-time alert should be triggered')
+  mentalState: z.string().describe('Overall mental state assessment (e.g., Calm, Mild Stress, High Stress).'),
+  physicalState: z.string().describe('Overall physical state assessment (e.g., Rested, Fatigued, Dehydrated).'),
+  recommendations: z.array(z.string()).describe('List of actionable recommendations based on the assessment.'),
+  alert: z.boolean().describe('Whether a real-time alert should be triggered for a caregiver or doctor.'),
 });
 export type RealTimeHealthAssessmentOutput = z.infer<typeof RealTimeHealthAssessmentOutputSchema>;
 
@@ -37,27 +38,22 @@ const prompt = ai.definePrompt({
   name: 'realTimeHealthAssessmentPrompt',
   input: {schema: RealTimeHealthAssessmentInputSchema},
   output: {schema: RealTimeHealthAssessmentOutputSchema},
-  prompt: `You are an AI assistant specializing in real-time health assessments based on wearable sensor data.
+  prompt: `You are an AI assistant specializing in real-time health assessments based on wearable sensor data for seniors, students, and professionals.
 
-  Analyze the provided sensor data and user inputs to determine the user's current mental and physical state.
-  Provide a concise assessment of both mental and physical states, and offer personalized recommendations for improvement.
-  Also, based on the assessment, determine whether a real-time alert should be triggered.
+Analyze the provided sensor data to determine the user's current mental and physical state. Look for signs of fatigue, dehydration, stress, and poor well-being.
+Provide a concise assessment of both mental and physical states, and offer personalized, actionable recommendations for improvement.
+Determine if the situation warrants a real-time alert to a caregiver.
 
-  Consider the following data points:
-  - Heart Rate: {{{heartRate}}} bpm
-  - Motion Data: {{{motionData}}}
-  - GSR: {{{gsr}}}
-  - Speech Latency: {{{speechLatency}}} ms
-  - Energy Level: {{{energyLevel}}}
-  - Daily Assessment Score: {{{dailyAssessmentScore}}}
+Consider the following data points:
+- Heart Rate (BPM): {{{heartRate}}}
+- Heart Rate Variability (ms): {{{hrv}}}
+- SpO2 (%): {{{spo2}}}
+- Motion & Activity: {{{motionData}}}
+- Skin Temperature (°C): {{{skinTemp}}}
+- Galvanic Skin Response (µS): {{{gsr}}}
+- Ambient Light (lux): {{{ambientLight}}}
 
-  Output format:
-  {
-    "mentalState": "Overall mental state assessment",
-    "physicalState": "Overall physical state assessment",
-    "recommendations": ["Recommendation 1", "Recommendation 2"],
-    "alert": "Whether a real-time alert should be triggered (true/false)"
-  }`,
+Based on this, provide your analysis.`,
 });
 
 const realTimeHealthAssessmentFlow = ai.defineFlow(
