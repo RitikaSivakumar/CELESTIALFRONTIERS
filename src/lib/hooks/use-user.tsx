@@ -16,6 +16,7 @@ export type AgeGroup =
 
 type User = {
   name: string;
+  email: string;
   dob: Date | null;
   gender?: 'Male' | 'Female' | 'Other';
 };

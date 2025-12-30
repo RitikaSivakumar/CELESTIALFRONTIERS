@@ -45,6 +45,8 @@ import { getZodiacSign } from '@/lib/zodiac';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
   dob: z
     .string()
     .min(1, 'A date of birth is required.')
@@ -73,6 +75,8 @@ export default function OnboardingPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      email: '',
+      password: '',
       dob: '',
     },
   });
@@ -81,7 +85,12 @@ export default function OnboardingPage() {
     const dob = new Date(values.dob);
     const { message } = getZodiacSign(dob);
     setZodiacMessage(message);
-    setUser({ name: values.name, dob, gender: values.gender });
+    setUser({ 
+      name: values.name, 
+      dob, 
+      gender: values.gender,
+      email: values.email,
+    });
   }
 
   function enterDashboard() {
@@ -125,9 +134,9 @@ export default function OnboardingPage() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <CardHeader>
-                <CardTitle>Welcome to WellGuard</CardTitle>
+                <CardTitle>Create Your Account</CardTitle>
                 <CardDescription>
-                  Let's get started. Your information helps us personalize your
+                  Your information helps us personalize your
                   wellness journey.
                 </CardDescription>
               </CardHeader>
@@ -140,6 +149,32 @@ export default function OnboardingPage() {
                       <FormLabel>Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="you@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="********" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -236,7 +271,7 @@ export default function OnboardingPage() {
               </CardContent>
               <CardFooter>
                 <Button type="submit" className="w-full">
-                  Continue
+                  Create Account
                 </Button>
               </CardFooter>
             </form>
