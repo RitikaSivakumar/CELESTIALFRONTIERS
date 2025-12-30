@@ -25,8 +25,19 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { SettingsIcon } from '@/components/settings-icon';
+import { useUser } from '@/lib/hooks/use-user';
+import { useRouter } from 'next/navigation';
+import { LogOut } from 'lucide-react';
 
 export default function SettingsPage() {
+  const { setUser } = useUser();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    setUser(null);
+    router.push('/');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -199,6 +210,12 @@ export default function SettingsPage() {
           </AccordionItem>
         </Card>
       </Accordion>
+      <div className="pt-6">
+        <Button variant="destructive" className="w-full" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </Button>
+      </div>
     </div>
   );
 }

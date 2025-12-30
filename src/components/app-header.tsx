@@ -14,17 +14,10 @@ import { useUser } from '@/lib/hooks/use-user';
 import { Switch } from '@/components/ui/switch';
 import { Label } from './ui/label';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { ThemeToggle } from './theme-toggle';
 
 export function AppHeader() {
-  const { user, publicMode, setPublicMode, setUser } = useUser();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    setUser(null);
-    router.push('/');
-  };
+  const { user, publicMode, setPublicMode } = useUser();
 
   return (
     <div className="w-full flex items-center gap-4">
@@ -63,8 +56,6 @@ export function AppHeader() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
             </Link>
             <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
