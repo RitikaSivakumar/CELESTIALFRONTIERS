@@ -6,6 +6,7 @@ import React, {
   useState,
   ReactNode,
   useMemo,
+  useEffect,
 } from 'react';
 
 export type AgeGroup =
@@ -24,6 +25,7 @@ type UserContextType = {
   ageGroup: AgeGroup | null;
   publicMode: boolean;
   setPublicMode: (mode: boolean) => void;
+  loading: boolean;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,9 +33,9 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const getAgeGroup = (dob: Date | null): AgeGroup | null => {
   if (!dob) return null;
   const today = new Date();
-  let age = today.getFullYear() - dob.getFullYear();
-  const m = today.getMonth() - dob.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+  let age = today.getFullYear() - new Date(dob).getFullYear();
+  const m = today.getMonth() - new Date(dob).getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < new Date(dob).getDate())) {
     age--;
   }
 
@@ -45,16 +47,39 @@ const getAgeGroup = (dob: Date | null): AgeGroup | null => {
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
   const [publicMode, setPublicMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem('wellguard-user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        // Dates need to be re-hydrated into Date objects
+        if (parsedUser.dob) {
+          parsedUser.dob = new Date(parsedUser.dob);
+        }
+        setUserState(parsedUser);
+      }
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+    }
+    setLoading(false);
+  }, []);
 
   const setUser = (user: User | null) => {
     setUserState(user);
+    if (user) {
+      localStorage.setItem('wellguard-user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('wellguard-user');
+    }
   };
 
   const ageGroup = useMemo(() => getAgeGroup(user?.dob), [user?.dob]);
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, ageGroup, publicMode, setPublicMode }}
+      value={{ user, setUser, ageGroup, publicMode, setPublicMode, loading }}
     >
       {children}
     </UserContext.Provider>

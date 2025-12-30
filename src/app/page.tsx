@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -48,9 +48,16 @@ const formSchema = z.object({
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { setUser } = useUser();
+  const { user, setUser, loading } = useUser();
   const [zodiacMessage, setZodiacMessage] = useState('');
   const [isManualDob, setIsManualDob] = useState(false);
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,6 +76,14 @@ export default function OnboardingPage() {
 
   function enterDashboard() {
     router.push('/dashboard');
+  }
+
+  if (loading || user) {
+    return (
+       <div className="flex h-screen w-full items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    )
   }
 
   return (
