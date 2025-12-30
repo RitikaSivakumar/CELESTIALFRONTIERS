@@ -15,11 +15,14 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
   Circle,
-  Droplet,
+  Droplets,
   Heart,
   Smile,
   Thermometer,
   Zap,
+  Angry,
+  Meh,
+  Frown,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -78,6 +81,8 @@ export default function WomensHealthPage() {
                     'Headache',
                     'Fatigue',
                     'Acne',
+                    'Nausea',
+                    'Tender Breasts'
                   ].map((symptom) => (
                     <div key={symptom} className="flex items-center space-x-2">
                       <Checkbox id={`symptom-${symptom}`} />
@@ -90,15 +95,32 @@ export default function WomensHealthPage() {
               </div>
               <div className="space-y-2">
                 <Label>Mood</Label>
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                   <Button variant="outline" size="icon">
                     <Smile />
                   </Button>
                   <Button variant="outline" size="icon">
-                    <Heart />
+                    <Meh />
                   </Button>
                    <Button variant="outline" size="icon">
-                    <Circle />
+                    <Frown />
+                  </Button>
+                  <Button variant="outline" size="icon">
+                    <Angry />
+                  </Button>
+                </div>
+              </div>
+                 <div className="space-y-2">
+                <Label>Flow</Label>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="icon">
+                    <Droplets className="text-red-300"/>
+                  </Button>
+                  <Button variant="outline" size="icon">
+                    <Droplets className="text-red-400"/>
+                  </Button>
+                   <Button variant="outline" size="icon">
+                    <Droplets className="text-red-600"/>
                   </Button>
                 </div>
               </div>
@@ -129,7 +151,7 @@ export default function WomensHealthPage() {
 
         </div>
         <div className="space-y-6">
-          <Card className="bg-accent/50 border-accent">
+          <Card className="bg-primary/10 border-primary/20">
             <CardHeader>
               <CardTitle>Daily Insight</CardTitle>
               <CardDescription>Phase: Menstrual</CardDescription>
@@ -137,8 +159,8 @@ export default function WomensHealthPage() {
             <CardContent className="space-y-2">
               <p className="font-semibold">Energy Levels May Be Lower</p>
               <p className="text-sm text-muted-foreground">
-                It's normal to feel more tired during your period. Prioritize
-                rest and consider light exercise like walking or stretching.
+                It's normal to feel more tired during your period. Your body is working hard. Prioritize
+                rest and consider light exercise like walking or stretching to ease discomfort.
               </p>
             </CardContent>
           </Card>
@@ -146,7 +168,7 @@ export default function WomensHealthPage() {
             <CardHeader>
               <CardTitle>Period Pain Management</CardTitle>
               <CardDescription>
-                Experiencing cramps? Here are some tips.
+                Experiencing cramps? Here are some tips to help.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -155,13 +177,14 @@ export default function WomensHealthPage() {
                 <li>Stay hydrated by drinking plenty of water.</li>
                 <li>Try gentle stretches or a warm bath.</li>
                 <li>Consider over-the-counter pain relief if needed.</li>
+                <li>Avoid caffeine and salty foods which can worsen bloating.</li>
               </ul>
               <p className="text-xs text-muted-foreground pt-2">
                 If pain is severe or unusual, please consult a doctor.
               </p>
             </CardContent>
             <CardFooter>
-                <Button className="w-full">Manage the pain</Button>
+                <Button className="w-full" variant="secondary">Manage the pain</Button>
             </CardFooter>
           </Card>
         </div>
