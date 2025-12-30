@@ -67,7 +67,25 @@ const realTimeHealthAssessmentFlow = ai.defineFlow(
     outputSchema: RealTimeHealthAssessmentOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    const {output} = await ai.generate({
+      model: 'googleai/gemini-1.5-flash',
+      prompt: `You are an AI assistant specializing in real-time health assessments based on wearable sensor data.
+
+  Analyze the provided sensor data and user inputs to determine the user's current mental and physical state.
+  Provide a concise assessment of both mental and physical states, and offer personalized recommendations for improvement.
+  Also, based on the assessment, determine whether a real-time alert should be triggered.
+
+  Consider the following data points:
+  - Heart Rate: ${input.heartRate} bpm
+  - Motion Data: ${input.motionData}
+  - GSR: ${input.gsr}
+  - Speech Latency: ${input.speechLatency} ms
+  - Energy Level: ${input.energyLevel}
+  - Daily Assessment Score: ${input.dailyAssessmentScore}`,
+      output: {
+        schema: RealTimeHealthAssessmentOutputSchema,
+      },
+    });
+    return output;
   }
 );
