@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Leaf } from 'lucide-react';
 import { Button } from '../ui/button';
 
@@ -27,6 +27,7 @@ export function NutrientGuide({ currentPhase }: NutrientGuideProps) {
   const [data, setData] = useState<NutrientRecommendationOutput | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     async function fetchRecommendation() {
@@ -43,8 +44,12 @@ export function NutrientGuide({ currentPhase }: NutrientGuideProps) {
         setLoading(false);
       }
     }
-    fetchRecommendation();
-  }, []);
+    
+    if (!hasFetched.current) {
+      fetchRecommendation();
+      hasFetched.current = true;
+    }
+  }, [currentPhase]);
 
   if (loading) {
     return (
