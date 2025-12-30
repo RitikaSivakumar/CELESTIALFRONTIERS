@@ -55,7 +55,7 @@ export function HealthAssessment() {
 
   useEffect(() => {
     runAssessment();
-    const interval = setInterval(runAssessment, 30000); // Re-assess every 30 seconds
+    const interval = setInterval(runAssessment, 120000); // Re-assess every 2 minutes
     return () => clearInterval(interval);
   }, []);
 
