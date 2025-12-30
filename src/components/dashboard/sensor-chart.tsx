@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 type SensorDataPoint = {
   time: string;
@@ -64,67 +64,69 @@ export function SensorChart() {
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data}
-              margin={{
-                top: 5,
-                right: 10,
-                left: 10,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis
-                dataKey="time"
-                stroke="hsl(var(--muted-foreground))"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                yAxisId="left"
-                stroke="hsl(var(--muted-foreground))"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `${value}`}
-                domain={[50, 110]}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                stroke="hsl(var(--muted-foreground))"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `${value.toFixed(1)}`}
-                domain={[0, 8]}
-              />
-              <Tooltip
-                content={<ChartTooltipContent hideLabel />}
-                cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 2, strokeDasharray: '3 3' }}
-              />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="heartRate"
-                stroke="hsl(var(--chart-1))"
-                strokeWidth={2}
-                dot={false}
-                name="Heart Rate (BPM)"
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="gsr"
-                stroke="hsl(var(--chart-2))"
-                strokeWidth={2}
-                dot={false}
-                name="Skin Response (µS)"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <ChartContainer config={{}}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: 10,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="time"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  yAxisId="left"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `${value}`}
+                  domain={[50, 110]}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `${value.toFixed(1)}`}
+                  domain={[0, 8]}
+                />
+                <Tooltip
+                  content={<ChartTooltipContent hideLabel />}
+                  cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 2, strokeDasharray: '3 3' }}
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="heartRate"
+                  stroke="hsl(var(--chart-1))"
+                  strokeWidth={2}
+                  dot={false}
+                  name="Heart Rate (BPM)"
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="gsr"
+                  stroke="hsl(var(--chart-2))"
+                  strokeWidth={2}
+                  dot={false}
+                  name="Skin Response (µS)"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
         </div>
       </CardContent>
     </Card>
