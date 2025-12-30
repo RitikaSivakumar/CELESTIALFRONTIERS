@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { NutrientGuide } from '@/components/womens-health/nutrient-guide';
 
 export default function WomensHealthPage() {
   return (
@@ -161,6 +162,9 @@ export default function WomensHealthPage() {
               </p>
             </CardContent>
           </Card>
+
+          <NutrientGuide currentPhase="Menstrual" />
+
           <Card>
             <CardHeader>
               <CardTitle>Period Pain Management</CardTitle>
