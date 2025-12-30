@@ -6,12 +6,38 @@ A privacy-first, offline-capable **Edge AI–Powered Early Burnout, Fatigue & De
 
 This system represents a transformation from passive health monitoring to **proactive, intelligent protection**, using Edge AI and TinyML to empower users to act early, safely, and privately.
 
+## 📝 Project Overview
+
+This application serves as a comprehensive companion for the WellGuard AIoT wearable device. It provides a user-friendly interface for individuals to monitor their well-being, gain AI-driven insights, and access supportive tools. The key features include:
+
+*   **Personalized Onboarding:** Captures essential user details like gender and date of birth to tailor the app experience.
+*   **Real-Time Health Dashboard:** Displays live physiological data from the wearable, such as heart rate, skin temperature, and SpO₂.
+*   **AI-Powered Health Assessment:** Uses Genkit and Google's Gemini models to analyze sensor data and predict risks for fatigue, dehydration, burnout, and mental overload, offering actionable recommendations.
+*   **Mental Wellness Tools:** Includes a mental wellness check-in (GAD-7 assessment), an AI Coach for emotional support, and a wellness center with breathing exercises and calming content.
+*   **Women's Health Module:** A dedicated dashboard for female users to track their menstrual cycle, log symptoms, and receive phase-specific insights.
+*   **Community Support:** A privacy-conscious peer-to-peer feed where users can anonymously share experiences and find solidarity.
+*   **Doctor-Patient Connectivity:** Features a dedicated dashboard for healthcare professionals to monitor patient data and receive emergency alerts.
+
 ## 🚀 Core Principles
 
 *   **Proactive Prediction:** Predict fatigue, burnout, and dehydration 15-30 minutes in advance.
 *   **Privacy-First:** All data processing occurs on-device using Edge AI. No raw personal data is sent to the cloud.
 *   **Offline-Capable:** The system is fully functional without an internet connection.
 *   **Low-Latency & Energy-Efficient:** Optimized for continuous use on wearable devices.
+
+## 🌊 Project Flow
+
+The user journey is designed to be intuitive and supportive, guiding the user from initial setup to daily wellness management.
+
+1.  **Onboarding:** The user creates an account by providing their name, email, password, date of birth, and gender. This information is used to personalize the app experience.
+2.  **Dashboard:** After logging in, the user lands on the main dashboard, which shows real-time vitals from their wearable device and a summary of their AI-driven health assessment.
+3.  **Wellness Check-in:** The user can take a GAD-7 assessment to check their anxiety levels and receive recommendations based on their score.
+4.  **Specialized Dashboards:**
+    *   **Women's Health:** If the user is female, they can access a dedicated dashboard to track their menstrual cycle, log symptoms, and view cycle-specific insights.
+    *   **AI Coach:** The user can chat with an AI-powered coach for emotional support and guidance.
+    *   **Community:** Users can opt into a public support mode to anonymously share experiences and connect with peers.
+5.  **Settings & Privacy:** The user can manage application settings, control data privacy (like enabling/disabling community sharing), and log out from the settings page.
+6.  **Doctor View:** A separate portal allows authorized doctors to view patient data, monitor for critical alerts, and make notes.
 
 ## 🛠️ System Architecture
 
