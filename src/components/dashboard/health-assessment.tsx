@@ -31,36 +31,35 @@ export function HealthAssessment() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const runAssessment = async () => {
-    // Note: No setLoading(true) here to avoid constant UI flicker on interval updates
-    const mockInput: RealTimeHealthAssessmentInput = {
-      heartRate: Math.floor(Math.random() * 41) + 60, // 60-100 bpm
-      hrv: Math.floor(Math.random() * 51) + 30, // 30-80 ms
-      spo2: Math.floor(Math.random() * 5) + 95, // 95-99%
-      motionData:
-        mockMotionData[Math.floor(Math.random() * mockMotionData.length)],
-      skinTemp: parseFloat((Math.random() * 2 + 36).toFixed(1)), // 36.0-38.0°C
-      gsr: parseFloat((Math.random() * 10).toFixed(2)), // 0-10 µS
-      breathingRate: Math.floor(Math.random() * 5) + 16, // 16-20
-      activityDuration: Math.floor(Math.random() * 120),
-      ambientLight: Math.floor(Math.random() * 801) + 100, // 100-900 lux
-    };
-
-    try {
-      const result = await realTimeHealthAssessment(mockInput);
-      setAssessment(result);
-      setError(null);
-    } catch (e) {
-      console.error('Health assessment failed:', e);
-      setError('Failed to load health assessment. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const runAssessment = async () => {
+      // Note: No setLoading(true) here to avoid constant UI flicker on interval updates
+      const mockInput: RealTimeHealthAssessmentInput = {
+        heartRate: Math.floor(Math.random() * 41) + 60, // 60-100 bpm
+        hrv: Math.floor(Math.random() * 51) + 30, // 30-80 ms
+        spo2: Math.floor(Math.random() * 5) + 95, // 95-99%
+        motionData:
+          mockMotionData[Math.floor(Math.random() * mockMotionData.length)],
+        skinTemp: parseFloat((Math.random() * 2 + 36).toFixed(1)), // 36.0-38.0°C
+        gsr: parseFloat((Math.random() * 10).toFixed(2)), // 0-10 µS
+        breathingRate: Math.floor(Math.random() * 5) + 16, // 16-20
+        activityDuration: Math.floor(Math.random() * 120),
+        ambientLight: Math.floor(Math.random() * 801) + 100, // 100-900 lux
+      };
+
+      try {
+        const result = await realTimeHealthAssessment(mockInput);
+        setAssessment(result);
+        setError(null);
+      } catch (e) {
+        console.error('Health assessment failed:', e);
+        setError('Failed to load health assessment. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
     runAssessment();
-    // The interval has been removed to prevent excessive API calls.
   }, []);
 
   if (loading) {
