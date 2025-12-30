@@ -10,6 +10,7 @@ import {
   BarChart3,
   HeartPulse,
   ClipboardCheck,
+  Gamepad2,
 } from 'lucide-react';
 
 import {
@@ -32,6 +33,7 @@ const navItems = [
   { href: '/assessment', label: 'Assessment', icon: ClipboardCheck },
   { href: '/chatbot', label: 'AI Coach', icon: MessageSquare },
   { href: '/wellness', label: 'Wellness', icon: Wind },
+  { href: '/games', label: 'Games', icon: Gamepad2 },
   { href: '/community', label: 'Community', icon: Users },
   { href: '/reports', label: 'Reports', icon: BarChart3 },
 ];
