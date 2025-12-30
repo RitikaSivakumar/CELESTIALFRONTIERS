@@ -1,10 +1,12 @@
 import { HealthAssessment } from '@/components/dashboard/health-assessment';
 import { Interventions } from '@/components/dashboard/interventions';
 import { SensorChart } from '@/components/dashboard/sensor-chart';
+import { RealTimeStats } from '@/components/dashboard/real-time-stats';
 
 export default function DashboardPage() {
   return (
     <div className="flex-1 space-y-4">
+      <RealTimeStats />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <HealthAssessment />
       </div>
