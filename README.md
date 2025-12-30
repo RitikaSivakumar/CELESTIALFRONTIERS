@@ -1,164 +1,79 @@
-# 🧓💬 SeniorMind — Mental Wellness Companion App for Senior Citizens
+# Edge AI–Powered Early Burnout, Fatigue & Dehydration Prediction System
 
-## 🌼 Purpose
+## 🎯 Vision
 
-SeniorMind is a gentle, easy-to-use mobile app designed for elderly users to help them reduce stress, loneliness, and fear (such as fear of death or disease), while also allowing them to self-assess mental health using PHQ-9 and GAD-7 questionnaires.
-The app provides:
+A privacy-first, offline-capable **Edge AI–Powered Early Burnout, Fatigue & Dehydration Prediction System** for students, professionals, and frontline workers. The system addresses prolonged cognitive load, irregular routines, dehydration, and chronic stress by predicting early signs of burnout, fatigue, and dehydration **before symptoms become critical**, enabling proactive self-care and crisis prevention rather than reactive responses.
 
-- Emotional comfort through warm, conversational interaction
-- Self-assessment tools for depression & anxiety
-- Daily journaling & relaxation exercises
-- Guidance for consulting doctors/psychiatrists when scores are high
-- Caregiver and family connection features
+This system represents a transformation from passive health monitoring to **proactive, intelligent protection**, using Edge AI and TinyML to empower users to act early, safely, and privately.
 
----
+## 🚀 Core Principles
 
-## 🧭 Core Objectives
+*   **Proactive Prediction:** Predict fatigue, burnout, and dehydration 15-30 minutes in advance.
+*   **Privacy-First:** All data processing occurs on-device using Edge AI. No raw personal data is sent to the cloud.
+*   **Offline-Capable:** The system is fully functional without an internet connection.
+*   **Low-Latency & Energy-Efficient:** Optimized for continuous use on wearable devices.
 
-1.  **🧘‍♀️ Reduce anxiety, depression, and isolation among senior citizens.**
-2.  **❤️ Create an emotionally safe space that feels like a “companion.”**
-3.  **⚕️ Encourage early help-seeking if PHQ-9 or GAD-7 scores are high.**
-4.  **📱 Keep interface minimal, readable, and soothing.**
+## 🛠️ System Architecture
 
----
+A multi-layer architecture for a wearable device integrated with this companion mobile application.
 
-## 🏗️ App Structure
+### 1. Data Acquisition Layer (Wearable)
 
-### 1. Welcome & Warm Conversation Screen
+Continuously collects physiological, behavioral, and contextual data.
 
-**Purpose**: To comfort the user and set a calming tone.
-**Features**:
-- Friendly introduction (“Hello there 👋, I’m happy to see you today…”)
-- Gentle breathing reminder (inhale–hold–exhale)
-- Short reassuring text emphasizing they are not alone.
-- Option buttons:
-    - 🌿 Start Reflection
-    - 💬 Talk to Someone (connects to family or helpline)
+*   **Physiological Signals:**
+    *   Heart Rate, HRV, SpO₂ (MAX30102)
+    *   Skin Temperature (NTC/DS18B20)
+    *   Skin Conductance/EDA (GSR Sensor)
+    *   Breathing Rate
+*   **Behavioral Signals:**
+    *   Movement, Activity Duration & Intensity, Rest-Activity Imbalance (MPU6050)
+    *   Posture & Restlessness
+*   **Environmental Inputs (Optional):**
+    *   Ambient Light (BH1750)
+    *   Noise, Temperature, Humidity, CO₂
 
-### 2. PHQ-9 Self-Assessment
+### 2. On-Device Processing & AI Layer (Edge AI/TinyML)
 
-**Purpose**: Identify symptoms of depression.
-**UI**: Large text, simple radio buttons (0–3 rating scale)
-**Items**: Nine questions (e.g., “Feeling tired or having little energy”).
-**At the end**:
-- Total Score displayed
-- Interpretation message with color cue (Green, Yellow, Red)
-- **Next Step**:
-    - “You’re doing well! Keep your positive habits.”
-    - “You might be feeling low — would you like to try a calming activity?”
-    - “It looks like you’re struggling — let’s connect with your doctor.”
+Lightweight ML models deployed on embedded platforms (e.g., ESP32, Arduino Nano, Raspberry Pi Pico) perform on-device analysis.
 
-### 3. GAD-7 Self-Assessment
+*   **Short-Term Fatigue Prediction:** Estimates fatigue levels 15–30 minutes ahead.
+*   **Dehydration Risk Estimation:** Assesses risk based on physiological and activity data.
+*   **Mental Overload Trend Detection:** Analyzes patterns of cognitive stress.
+*   **Burnout Probability Scoring:** Classifies user state into `Normal`, `Mild Risk`, `High Risk`, or `Critical Burnout Trajectory`.
 
-**Purpose**: Assess anxiety symptoms.
-**UI**: Similar to PHQ-9.
-**Score guidance**:
-- 0–4 = Minimal
-- 5–9 = Mild
-- 10–14 = Moderate
-- 15–21 = Severe
+### 3. Predictive Alert & Intervention Layer
 
-### 4. Doctor & Safety Guidance
+Delivers context-aware, adaptive, and preventive notifications.
 
-Automatically shown after PHQ-9/GAD-7 results.
+*   **Context-Aware Alerts:** Notifications for hydration, breaks, or mindfulness are triggered based on user profile (student, professional), activity, time of day, and workload.
+*   **Alert Control Logic:** Suppresses repeated or low-confidence alerts to avoid "alert fatigue."
+*   **Gentle Interventions:** Provides gentle vibrations or audio cues, on-screen guidance for breathing, and environmental recommendations (e.g., adjust lighting).
+*   **Critical Safety Mode:** With user consent, can notify a supervisor or caregiver with aggregated risk information only.
 
-**If scores are high**:
-> “It seems you’ve been feeling quite overwhelmed.
-Please contact your doctor or a psychiatrist.
-Professional care can help you recover and feel at peace again. 💖”
+### 4. Companion Mobile App (This Application)
 
-Includes a list of:
-- Local helpline numbers (customizable)
-- “Call Family” or “Message Caregiver” buttons
+Serves as the user's interface for visualization, configuration, and long-term trend analysis.
 
-### 5. Daily Journal & Affirmations
+*   **Dashboard:** Displays real-time status, risk scores, and trends.
+*   **Data Visualization:** Shows historical data for activity, stress, and physiological metrics.
+*   **Alert Configuration:** Allows users to customize alert sensitivity and types.
+*   **Offline Sync:** Syncs data stored on the wearable's flash memory when connected.
 
-**Purpose**: Encourage reflection and positive thinking.
-**Features**:
-- Morning and evening writing prompts:
-    - 🌅 “What’s one thing you’re grateful for today?”
-    - 🌙 “What made you smile today?”
-- Option to record short voice notes (for seniors who find typing hard).
-- Daily affirmation cards — calm visuals with quotes like:
-> “You are strong, loved, and still growing — every day.”
+## 🔁 System Workflow
 
-### 6. 7-Day Mind Peace Plan
+1.  **Continuous Data Collection:** Sensors on the wearable gather data.
+2.  **On-Device Preprocessing:** Data is cleaned and features are extracted locally.
+3.  **TinyML Prediction:** On-device models predict future states (fatigue, dehydration).
+4.  **Context-Aware Decision-Making:** The system decides if an alert is necessary based on context.
+5.  **Preventive Alert Delivery:** User receives a gentle, actionable notification.
+6.  **Adaptive Interventions:** App provides guidance for self-care.
+7.  **Anonymized Sync:** Optional, anonymized summary data is synced to the cloud for backup.
 
-**Purpose**: Build daily routine & reduce fear of disease/death.
-**Includes**:
+## ✅ Core Benefits
 
-| Day | Focus      | Activity                          |
-|-----|------------|-----------------------------------|
-| 1   | Breathing  | 5-minute deep breathing           |
-| 2   | Movement   | Gentle chair yoga                 |
-| 3   | Connection | Call a loved one                  |
-| 4   | Nature     | Sit in sunlight or garden         |
-| 5   | Reflection | Write or voice a happy memory     |
-| 6   | Gratitude  | Note 3 good things                |
-| 7   | Relaxation | Listen to calming music           |
-
-Progress tracker with emojis 🌞🌻🌙
-
-### 7. Weekly PHQ-9/GAD-7 Tracker
-
-**Purpose**: Observe mental health changes.
-**Features**:
-- Table with week-wise scores
-- “View Progress Chart” button (shows graph)
-- “Download PDF Report” (for doctor consultation)
-
-### 8. Caregiver & Family Connection
-
-**Purpose**: Bridge communication with trusted contacts.
-**Features**:
-- Add up to 2 caregivers (family or doctor)
-- Weekly summary (scores, notes, emotional tone)
-- Optional “check-in reminders” sent via WhatsApp or SMS
-
-### 9. Emergency & Support Screen
-
-**Quick Access Buttons**:
-- 📞 Call Doctor
-- ❤️ Call Family
-- ☎️ Helpline (customizable number)
-
----
-
-## 🎨 UI Design Guidelines
-
-- **Font**: Large, sans-serif (Poppins / Noto Sans)
-- **Theme**: Soft pastel colors — mint green, light lavender, beige
-- **Icons**: Large, minimal, emotionally warm
-- **Accessibility**:
-    - Text-to-speech for all screens
-    - High-contrast mode
-    - Simple navigation (max 2 choices per screen)
-
----
-
-## 🧩 Technical Overview (for developers)
-
-- **Framework**: React (with Tailwind CSS)
-- **Storage**: Local storage or Firebase for mood logs
-- **Data Privacy**: End-to-end encryption for journal entries
-- **Optional Integration**: Google Fit (for daily movement)
-- **PDF Generation**: Built-in PHQ-9/GAD-7 tracker export via jspdf
-
----
-
-## ⚕️ Ethical & Clinical Safety
-
-App clearly states that it’s not a diagnosis tool.
-Displays gentle alert:
-> “If you ever feel hopeless or unsafe, please reach out to your doctor or helpline immediately.”
-
-Built-in suicide prevention hotline links (customized per region)
-
----
-
-## 🧭 Future Expansion Ideas
-
-- 🗣️ Voice-based interaction (AI companion mode)
-- 📅 Auto-scheduled teleconsultations
-- 💬 Multilingual support (Tamil, Hindi, English)
-- 🧓 “Community Stories” — share positive aging experiences
+*   **Prevent Burnout & Fatigue:** Act before exhaustion becomes a problem.
+*   **Reduce Accident Risk:** Enhance safety in high-stakes environments.
+*   **Support Mental Health with Privacy:** No stigma, no data leaks.
+*   **Encourage Timely Self-Care:** Empowers users with proactive information.
+*   **Scalable Deployment:** Suitable for schools, offices, factories, and hospitals.
