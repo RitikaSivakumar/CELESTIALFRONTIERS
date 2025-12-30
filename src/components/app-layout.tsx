@@ -9,6 +9,7 @@ import {
   Users,
   BarChart3,
   HeartPulse,
+  ClipboardCheck,
 } from 'lucide-react';
 
 import {
@@ -28,6 +29,7 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/assessment', label: 'Assessment', icon: ClipboardCheck },
   { href: '/chatbot', label: 'AI Coach', icon: MessageSquare },
   { href: '/wellness', label: 'Wellness', icon: Wind },
   { href: '/community', label: 'Community', icon: Users },
