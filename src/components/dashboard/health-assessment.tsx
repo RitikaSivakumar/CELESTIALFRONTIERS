@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   realTimeHealthAssessment,
   type RealTimeHealthAssessmentInput,
@@ -30,10 +30,16 @@ export function HealthAssessment() {
     useState<RealTimeHealthAssessmentOutput | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const assessmentFetched = useRef(false);
 
   useEffect(() => {
+    if (assessmentFetched.current) {
+      return;
+    }
+    assessmentFetched.current = true;
+
     const runAssessment = async () => {
-      // Note: No setLoading(true) here to avoid constant UI flicker on interval updates
+      setLoading(true);
       const mockInput: RealTimeHealthAssessmentInput = {
         heartRate: Math.floor(Math.random() * 41) + 60, // 60-100 bpm
         hrv: Math.floor(Math.random() * 51) + 30, // 30-80 ms
