@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "wellness-1",
+      "description": "A calm lake with mountains in the background at sunrise.",
+      "imageUrl": "https://images.unsplash.com/photo-1641201247748-fc2f52b78c5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FsbSUyMGxha2V8ZW58MHx8fHwxNzY3MDgyNTc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calm lake"
+    },
+    {
+      "id": "wellness-2",
+      "description": "Sunlight filtering through the canopy of a serene forest.",
+      "imageUrl": "https://images.unsplash.com/photo-1762871950969-55419104d2d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzZXJlbmUlMjBmb3Jlc3R8ZW58MHx8fHwxNzY3MDg3MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "serene forest"
+    },
+    {
+      "id": "wellness-3",
+      "description": "A person meditating on a beach during sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1528319725582-ddc096101511?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx5b2dhJTIwbWVkaXRhdGlvbnxlbnwwfHx8fDE3NjY5Nzc3Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga meditation"
+    },
+    {
+      "id": "wellness-4",
+      "description": "A peaceful garden with a stone path.",
+      "imageUrl": "https://images.unsplash.com/photo-1766904535096-1d383023e9c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZWFjZWZ1bCUyMGdhcmRlbnxlbnwwfHx8fDE3NjcwODcyMzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "peaceful garden"
+    },
+    {
+      "id": "wellness-5",
+      "description": "A stack of smooth stones on a blurred nature background.",
+      "imageUrl": "https://images.unsplash.com/photo-1533162507191-d90c625b2640?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx6ZW4lMjBzdG9uZXN8ZW58MHx8fHwxNzY3MDQzNzM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "zen stones"
+    },
+    {
+      "id": "wellness-6",
+      "description": "A person doing yoga in a bright, airy room.",
+      "imageUrl": "https://images.unsplash.com/photo-1593811167565-4672e6c8ce4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b2dhJTIwcG9zZXxlbnwwfHx8fDE3NjcwMTk2MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga pose"
+    }
+  ]
 }

@@ -1,0 +1,33 @@
+
+.breathing-circle {
+    width: 150px;
+    height: 150px;
+    transition: all 4s ease-in-out;
+}
+
+@keyframes breathe-in-animation {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.5);
+    }
+}
+
+@keyframes breathe-out-animation {
+    from {
+        transform: scale(1.5);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.animate-breathe-in {
+    animation: breathe-in-animation 4s ease-in-out forwards;
+}
+
+.animate-breathe-out {
+    animation: breathe-out-animation 4s ease-in-out forwards;
+}
+

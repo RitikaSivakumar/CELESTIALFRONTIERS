@@ -1,0 +1,150 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import {
+  realTimeHealthAssessment,
+  type RealTimeHealthAssessmentInput,
+  type RealTimeHealthAssessmentOutput,
+} from '@/ai/flows/real-time-health-assessment';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { AlertCircle, BrainCircuit, HeartPulse, List } from 'lucide-react';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+
+const mockMotionData = [
+  'sedentary',
+  'light activity',
+  'moderate activity',
+  'restless movement',
+];
+
+export function HealthAssessment() {
+  const [assessment, setAssessment] =
+    useState<RealTimeHealthAssessmentOutput | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const runAssessment = async () => {
+    // Note: No setLoading(true) here to avoid constant UI flicker on interval updates
+    const mockInput: RealTimeHealthAssessmentInput = {
+      heartRate: Math.floor(Math.random() * 41) + 60, // 60-100
+      motionData:
+        mockMotionData[Math.floor(Math.random() * mockMotionData.length)],
+      gsr: Math.random() * 10,
+      speechLatency: Math.floor(Math.random() * 101) + 150, // 150-250ms
+      energyLevel: Math.floor(Math.random() * 101),
+      dailyAssessmentScore: Math.floor(Math.random() * 22), // Example HADES score 0-21
+    };
+
+    try {
+      const result = await realTimeHealthAssessment(mockInput);
+      setAssessment(result);
+      setError(null);
+    } catch (e) {
+      console.error('Health assessment failed:', e);
+      setError('Failed to load health assessment. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    runAssessment();
+    const interval = setInterval(runAssessment, 30000); // Re-assess every 30 seconds
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        {[...Array(2)].map((_, i) => (
+          <Card key={i} className="col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                <Skeleton className="h-4 w-32" />
+              </CardTitle>
+              <Skeleton className="h-4 w-4 rounded-sm" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-8 w-48" />
+            </CardContent>
+          </Card>
+        ))}
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="col-span-4">
+        <CardHeader>
+          <CardTitle>Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-destructive">{error}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <>
+      <Card className="col-span-4 md:col-span-2 lg:col-span-4">
+        {assessment?.alert && (
+          <Alert variant="destructive" className="m-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Immediate Attention Required!</AlertTitle>
+            <AlertDescription>
+              Our system has detected a high-risk mental state. Please consider
+              using the AI Coach or reaching out for support.
+            </AlertDescription>
+          </Alert>
+        )}
+      </Card>
+      <Card className="col-span-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Mental State</CardTitle>
+          <BrainCircuit className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {assessment?.mentalState || 'N/A'}
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="col-span-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Physical State</CardTitle>
+          <HeartPulse className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {assessment?.physicalState || 'N/A'}
+          </div>
+        </CardContent>
+      </Card>
+      {assessment?.recommendations && assessment.recommendations.length > 0 && (
+        <Card className="col-span-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              AI Recommendations
+            </CardTitle>
+            <List className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-1 text-sm text-muted-foreground list-disc pl-4">
+              {assessment.recommendations.map((rec, index) => (
+                <li key={index}>{rec}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
+}

@@ -1,0 +1,42 @@
+export const communityPosts = [
+  {
+    id: 1,
+    ageGroup: 'College students',
+    problem: 'Feeling overwhelmed with exam stress and looming deadlines. It feels like I can never catch up.',
+    time: '2h ago',
+    comments: 12,
+    supports: 34,
+  },
+  {
+    id: 2,
+    ageGroup: 'Working professionals',
+    problem: 'Struggling to find a work-life balance. My job is consuming everything and I feel completely burnt out.',
+    time: '5h ago',
+    comments: 8,
+    supports: 28,
+  },
+  {
+    id: 3,
+    ageGroup: 'School students',
+    problem: 'There\'s so much pressure from my parents to get good grades, but I\'m having a hard time focusing in class.',
+    time: '1d ago',
+    comments: 15,
+    supports: 45,
+  },
+  {
+    id: 4,
+    ageGroup: 'College students',
+    problem: 'Dealing with some tough relationship challenges and it\'s making it hard to focus on my studies. Feeling really lonely.',
+    time: '2d ago',
+    comments: 22,
+    supports: 61,
+  },
+    {
+    id: 5,
+    ageGroup: 'Working professionals',
+    problem: 'I feel like an imposter at my new job. Everyone seems so much more qualified and I\'m scared of being found out.',
+    time: '3d ago',
+    comments: 18,
+    supports: 52,
+  },
+];
