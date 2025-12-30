@@ -31,6 +31,11 @@ export function NutrientGuide({ currentPhase }: NutrientGuideProps) {
 
   useEffect(() => {
     async function fetchRecommendation() {
+      if (hasFetched.current) {
+        return;
+      }
+      hasFetched.current = true;
+
       setLoading(true);
       setError(null);
       try {
@@ -45,13 +50,10 @@ export function NutrientGuide({ currentPhase }: NutrientGuideProps) {
       }
     }
     
-    if (!hasFetched.current) {
-      fetchRecommendation();
-      hasFetched.current = true;
-    }
+    fetchRecommendation();
   }, [currentPhase]);
 
-  if (loading) {
+  if (loading && !data) {
     return (
       <Card>
         <CardHeader>
