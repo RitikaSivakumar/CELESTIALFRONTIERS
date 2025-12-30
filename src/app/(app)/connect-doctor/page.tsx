@@ -25,6 +25,11 @@ const doctors = [
     specialty: 'Mental Health Counselor',
     image: 'https://i.pravatar.cc/150?img=3',
   },
+  {
+    name: 'Dr. Sara',
+    specialty: 'General Practitioner',
+    image: 'https://i.pravatar.cc/150?img=4',
+  },
 ];
 
 export default function ConnectDoctorPage() {
