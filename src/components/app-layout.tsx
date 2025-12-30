@@ -12,6 +12,7 @@ import {
   ClipboardCheck,
   Gamepad2,
   Stethoscope,
+  HeartHandshake,
 } from 'lucide-react';
 
 import {
@@ -33,10 +34,11 @@ import { Separator } from './ui/separator';
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/assessment', label: 'Assessment', icon: ClipboardCheck },
+  { href: '/womens-health', label: "Women's Health", icon: HeartHandshake, gender: 'Female' },
   { href: '/chatbot', label: 'AI Coach', icon: MessageSquare },
   { href: '/wellness', label: 'Wellness', icon: Wind },
   { href: '/games', label: 'Games', icon: Gamepad2 },
-  { href: '/community', label: 'Community', icon: Users },
+  { href: '/community', label: 'Community', icon: Users, public: true },
   { href: '/reports', label: 'Reports', icon: BarChart3 },
 ];
 
@@ -46,7 +48,7 @@ const doctorNavItems = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { publicMode } = useUser();
+  const { user, publicMode } = useUser();
 
   return (
     <SidebarProvider>
@@ -62,7 +64,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             {navItems.map((item) => {
-              if (item.href === '/community' && !publicMode) {
+              if (item.public && !publicMode) {
+                return null;
+              }
+              if (item.gender && item.gender !== user?.gender) {
                 return null;
               }
               return (

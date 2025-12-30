@@ -17,6 +17,7 @@ export type AgeGroup =
 type User = {
   name: string;
   dob: Date | null;
+  gender?: 'Male' | 'Female' | 'Other';
 };
 
 type UserContextType = {

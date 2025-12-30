@@ -31,6 +31,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/lib/hooks/use-user';
@@ -44,6 +51,9 @@ const formSchema = z.object({
     .refine((val) => !isNaN(Date.parse(val)), {
       message: 'Invalid date format. Please use YYYY-MM-DD.',
     }),
+  gender: z.enum(['Male', 'Female', 'Other'], {
+    required_error: 'Please select a gender.',
+  }),
 });
 
 export default function OnboardingPage() {
@@ -71,7 +81,7 @@ export default function OnboardingPage() {
     const dob = new Date(values.dob);
     const { message } = getZodiacSign(dob);
     setZodiacMessage(message);
-    setUser({ name: values.name, dob });
+    setUser({ name: values.name, dob, gender: values.gender });
   }
 
   function enterDashboard() {
@@ -194,6 +204,31 @@ export default function OnboardingPage() {
                           </PopoverContent>
                         </Popover>
                       )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gender</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your gender" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
