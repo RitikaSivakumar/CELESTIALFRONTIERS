@@ -11,6 +11,7 @@ import {
   HeartPulse,
   ClipboardCheck,
   Gamepad2,
+  Stethoscope,
 } from 'lucide-react';
 
 import {
@@ -27,6 +28,7 @@ import {
 import { AppHeader } from '@/components/app-header';
 import { useUser } from '@/lib/hooks/use-user';
 import { cn } from '@/lib/utils';
+import { Separator } from './ui/separator';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -37,6 +39,10 @@ const navItems = [
   { href: '/community', label: 'Community', icon: Users },
   { href: '/reports', label: 'Reports', icon: BarChart3 },
 ];
+
+const doctorNavItems = [
+    { href: '/doctor-dashboard', label: 'Doctor View', icon: Stethoscope },
+]
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -73,6 +79,24 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 </SidebarMenuItem>
               );
             })}
+          </SidebarMenu>
+          <Separator className="my-4" />
+           <SidebarMenu>
+            {doctorNavItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <Link href={item.href}>
+                    <SidebarMenuButton
+                      isActive={pathname.startsWith(item.href)}
+                      tooltip={item.label}
+                      variant="outline"
+                    >
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              )
+            )}
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
