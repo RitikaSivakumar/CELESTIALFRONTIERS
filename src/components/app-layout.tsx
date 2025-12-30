@@ -13,6 +13,7 @@ import {
   Gamepad2,
   Stethoscope,
   HeartHandshake,
+  Settings,
 } from 'lucide-react';
 
 import {
@@ -40,6 +41,7 @@ const navItems = [
   { href: '/games', label: 'Games', icon: Gamepad2 },
   { href: '/community', label: 'Community', icon: Users, public: true },
   { href: '/reports', label: 'Reports', icon: BarChart3 },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
 const doctorNavItems = [
